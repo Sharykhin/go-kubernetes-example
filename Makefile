@@ -1,15 +1,15 @@
-.PHONY: install test build serve clean pack deploy ship
+.PHONY: test build serve clean pack deploy ship
 
+GOARCH=amd64
+CGO_ENABLED=0
+GOOS=linux
 TAG?=$(shell git rev-list HEAD --max-count=1 --abbrev-commit)
 export TAG
-
-install:
-	go get .
 
 test:
 	go test ./...
 
-build: install
+build:
 	go build -ldflags "-X main.version=$(TAG)" -o hello-world .
 
 serve: build
@@ -18,7 +18,8 @@ serve: build
 clean:
 	rm ./hello-world
 
-pack: build
+pack:
+	GOOS=linux make build
 	docker build -t chapal/hello-world-service:$(TAG) .
 
 upload:
