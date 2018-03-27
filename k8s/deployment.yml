@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: hello-world
+  labels: {app: hello-world}
+spec:
+  replicas: 1
+  template:
+    metadata: {labels: {app: hello-world}}
+    spec:
+      containers:
+      - name: hello-world
+        image: chapal/hello-world-service:$(TAG)
+        command:
+        ports:
+          - containerPort: 8080
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-world
+spec:
+  type: LoadBalancer
+  selector:
+    app: hello-world
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
