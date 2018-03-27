@@ -5,7 +5,10 @@ test:
 	go test ./...
 
 build:
-	go build -ldflags "-X main.version=$(TAG)" -o news .
+	go build -ldflags "-X main.version=$(TAG)" -o hello-world .
 
 pack: build
-	docker build -t gcr.io/myproject/news-service:$(TAG) .
+	docker build -t chapal/hello-world-service:$(TAG) .
+
+upload:
+	docker push chapal/hello-world-service:$(TAG)

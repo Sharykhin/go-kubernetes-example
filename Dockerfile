@@ -1,13 +1,9 @@
-FROM golang:1.9
+FROM alpine:3.4
 
-ADD . /go/src/github.com/Sharykhin/go-hello-world
+RUN apk -U add ca-certificates
 
-WORKDIR /go/src/github.com/Sharykhin/go-hello-world
+EXPOSE 8080
 
-RUN go get .
+ADD hello-world /bin/hello-world
 
-RUN go install github.com/Sharykhin/go-hello-world
-
-ENTRYPOINT /go/bin/go-hello-world
-
-EXPOSE 3002
+CMD ["hello-world"]
