@@ -26,9 +26,6 @@ upload:
 	docker push chapal/hello-world-service:$(TAG)
 
 deploy:
-	envsubst < k8s/deployment.yml | kubectl apply -f -
+	kubectl create -f k8s/deployment.yml
 
 ship: test pack upload deploy
-
-t1:
-	kubectl run hello-world --image=chapal/hello-world-service:$(TAG) --port=8080
