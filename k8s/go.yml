@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: hello-world
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-deployment
+  labels:
+    app: hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name:  go
+        image: chapal/hello-world-service:v1
+        command:
+        ports:
+          - containerPort: 8080

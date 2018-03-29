@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world-pod
+  labels:
+    app: hello-world
+spec:
+  containers:
+  - name: mysql-gav-gav
+    image: chapal/gl-mail-grpc-server-mysql:v1
+    ports:
+    - containerPort: 3306
+    env:
+    - name: MYSQL_DATABASE
+      value: "test"
+    - name: MYSQL_USER
+      value: "test"
+    - name: MYSQL_PASSWORD
+      value: "test"
+    - name: MYSQL_ROOT_PASSWORD
+      value: "root"
+
+  - name: go
+    image: chapal/hello-world-service:v1
+    ports:
+    - containerPort: 8080

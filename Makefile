@@ -10,7 +10,7 @@ test:
 	go test ./...
 
 build:
-	go build -ldflags "-X main.version=$(TAG)" -o hello-world .
+	go build -ldflags "-X main.version=v1" -o hello-world .
 
 serve: build
 	./hello-world
@@ -20,10 +20,10 @@ clean:
 
 pack:
 	GOOS=linux make build
-	docker build -t chapal/hello-world-service:$(TAG) .
+	docker build -t chapal/hello-world-service:v1 .
 
 upload:
-	docker push chapal/hello-world-service:$(TAG)
+	docker push chapal/hello-world-service:v1
 
 deploy:
 	kubectl create -f k8s/deployment.yml
