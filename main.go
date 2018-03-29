@@ -13,7 +13,7 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("mysql", "test:test@tcp(mysql-gav-gav:3306)/test?charset=utf8")
+	db, err = sql.Open("mysql", "test:test@tcp(hello-world-mysql-pod-service:3306)/test?charset=utf8")
 	if err != nil {
 		log.Fatalf("Could not connetc to mysql: %v", err)
 	}

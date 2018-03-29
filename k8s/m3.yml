@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
   - name: go-gav-gav
-    image: chapal/hello-world-service:v1
+    image: chapal/hello-world-service:v3
     ports:
     - containerPort: 8080
