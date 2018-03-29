@@ -15,7 +15,7 @@ var db *sql.DB
 
 func init() {
 	var err error
-	db, err = sql.Open("mysql", "root:root@tcp(mysql-service-1:3306)/test?charset=utf8")
+	db, err = sql.Open("mysql", "root:root@tcp(mysql-service-2:3306)/test?charset=utf8")
 	if err != nil {
 		log.Fatalf("Could not connetc to mysql: %v", err)
 	}
@@ -34,7 +34,7 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var user User
 		row := db.QueryRow("SELECT * FROM users LIMIT 1")
-		row.Scan(user.Id, user.Name)
+		row.Scan(&user.Id, &user.Name)
 		res, err := json.Marshal(&user)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
