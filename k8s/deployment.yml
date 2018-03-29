@@ -29,7 +29,7 @@ spec:
     spec:
       containers:
       - name: hello-world
-        image: chapal/hello-world-service:$(TAG)
+        image: chapal/hello-world-service:v1
         command:
         ports:
           - containerPort: 8080
