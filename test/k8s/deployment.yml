@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world
+spec:
+  containers:
+  - name: golang-container
+    image: chapal/hello-world:v1.0.0
+    livenessProbe:
+      httpGet:
+        path: /ping
+        port: 8080
+      initialDelaySeconds: 90
+      periodSeconds: 10
+    readinessProbe:
+      httpGet:
+        path: /ping
+        port: 8080
+      initialDelaySeconds: 90
+      periodSeconds: 10
