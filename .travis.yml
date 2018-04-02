@@ -1,3 +1,19 @@
-script:
-   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests; fi'
-   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests; fi'
+stages:
+  - name: deploy
+    # require the branch name to be master
+    if: branch = master
+
+  - name: checks
+  if: type IN (pull_request)
+
+jobs:
+  include:
+    - stage: checks
+      script: echo "check"
+
+    - stage: deploy
+      script: echo "deploy"
+
+#script:
+#   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests; fi'
+#   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests; fi'
