@@ -1,3 +1,4 @@
 #!/bin/bash
 
 echo "run on pull request"
+exit 1
