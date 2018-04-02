@@ -1,7 +1,15 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: prod
+  labels:
+    name: prod
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-app-service
+  namespace: prod
 spec:
   ports:
   - port: 80
@@ -14,6 +22,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: hello-app-deployment
+  namespace: prod
   labels:
     app: hello-app
 spec:
@@ -32,6 +41,8 @@ spec:
         env:
         - name: HTTP_ADDRESS
           value: ":8080"
+        - name: APP_ENV
+          value: "dev"
         livenessProbe:
           httpGet:
             path: /ping
