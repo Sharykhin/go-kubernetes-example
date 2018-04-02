@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
       - name: hello-app-container
-        image: gcr.io/kubernetes-example-199908/hello-app:c6c0584
+        image: gcr.io/kubernetes-example-199908/hello-app:2c5c81a
         env:
         - name: HTTP_ADDRESS
           value: ":8080"
