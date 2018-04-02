@@ -8,11 +8,10 @@ go:
   - "1.9"
 
 install:
-- go get -v .
-- gometalinter --install
+  - go get -v .
 
 script:
-- go test -v ./...
+  - go test -v ./...
 
 after_success:
   if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
