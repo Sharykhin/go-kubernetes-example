@@ -14,12 +14,7 @@ script:
   - go test -v ./...
 
 after_success:
-  if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
-  then
-    echo 'Website deployed.'
-  else
-    echo "Build successful, but not publishing!"
-  fi
+  - './deploy.sh'
 #script:
 #   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests; fi'
 #   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests; fi'
