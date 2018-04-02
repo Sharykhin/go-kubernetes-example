@@ -5,7 +5,9 @@ then
   VERSION=$(git rev-parse --short HEAD)
   go build -ldflags "-X main.version=${VERSION}" -o hello-world .
   docker build -t gcr.io/kubernetes-example-199908/hello-app:${VERSION} .
-  gcloud config set project kubernetes-example-199908
+  gcloud auth activate-service-account --key-file client-secret.json
+  gcloud --quiet config set project kubernetes-example-199908
+  gcloud --quiet config set container/cluster cluster-1
   gcloud docker -- push gcr.io/kubernetes-example-199908/hello-app:${VERSION}
   echo "Website deployed on ${VERSION}"
 else
