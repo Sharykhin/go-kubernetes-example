@@ -14,7 +14,7 @@ script:
   - go test -v ./...
 
 after_success:
-  - './travis/deploy.sh'
+  - 'bash ./travis/deploy'
 #script:
 #   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests; fi'
 #   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests; fi'
