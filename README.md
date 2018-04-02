@@ -6,3 +6,4 @@ kubectl create clusterrolebinding --user system:serviceaccount:kube-system:defau
 ```bash
 MYSQL_ADDRESS="root:root@tcp(mysql-service-2:3306)/test?charset=utf8"
 ```
+
