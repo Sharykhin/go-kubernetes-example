@@ -9,11 +9,12 @@ cache:
   directories:
   - "$HOME/google-cloud-sdk/"
 before_install:
-- openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv
+  - openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv
   -in client-secret.json.enc -out client-secret.json -d
-- if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
-  fi
-- gcloud auth activate-service-account --key-file client-secret.json
+  - if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
+    fi
+  - gcloud auth activate-service-account --key-file client-secret.json
+  - gcloud components install kubectl
 install:
 - go get -v .
 script:
@@ -21,7 +22,6 @@ script:
 services:
 - docker
 before_deploy:
-  - gcloud components install kubectl
 
   #- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
   # - source /home/travis/google-cloud-sdk/path.bash.inc
