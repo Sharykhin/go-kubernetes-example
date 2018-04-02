@@ -3,6 +3,8 @@
 if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
 then
   VERSION=$(git log -n 1 master --pretty=format:"%H")
+  go build -ldflags "-X main.version=${VERSION}" -o hello-world .
+  docker build -t gcr.io/kubernetes-example-199908/hello-app:${VERSION} .
   echo "Website deployed on ${VERSION}"
 else
   echo "Build successful, but not publishing!"

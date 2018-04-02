@@ -13,6 +13,9 @@ install:
 script:
   - go test -v ./...
 
+services:
+  - docker
+
 after_success:
   - 'bash ./travis/deploy'
 #script:
