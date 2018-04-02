@@ -9,10 +9,8 @@ go:
 env:
   global:
     - GOOGLE_APPLICATION_CREDENTIALS=client-secret.json
-    - PROJECT_NAME_STG=kubernetes-example-199908
-    - CLUSTER_NAME_STG=cluster-1
-    - PROJECT_NAME_PRD=kubernetes-example-199908
-    - CLUSTER_NAME_PRD=cluster-1
+    - PROJECT_NAME=kubernetes-example-199908
+    - CLUSTER_NAME=cluster-1
     - CLOUDSDK_COMPUTE_ZONE=us-central1-a
     - DOCKER_IMAGE_NAME=hello-app
     - KUBE_DEPLOYMENT_NAME=hello-app-deployment
@@ -26,7 +24,8 @@ before_install:
 - curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
 - mkdir -p .bin; mv ./kubectl .bin/kubectl && chmod +x .bin/kubectl
 - export PATH="$TRAVIS_BUILD_DIR/.bin:$PATH"
-- gcloud auth activate-service-account --key-file client-secret.json
+- gcloud auth activate-service-account --key-file ${GOOGLE_APPLICATION_CREDENTIALS}
+- gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project kubernetes-example-199908
 - kubectl get pods
 install:
 - go get -v .
