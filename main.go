@@ -60,7 +60,7 @@ func main() {
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("pong"))
+		w.Write([]byte("pong 2"))
 	})
 
 	http.ListenAndServe(":8080", nil)

@@ -11,7 +11,7 @@ then
   gcloud --quiet container clusters get-credentials ${CLUSTER_NAME}
 
   gcloud docker -- push gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
-  kubectl --namespace=dev set image deployment/hello-app-deployment golang-container=gcr.io/kubernetes-example-199908/hello-app:${VERSION}
+  kubectl --namespace=dev set image deployment/${KUBE_DEPLOYMENT_NAME} ${KUBE_DEPLOYMENT_CONTAINER_NAME}=gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
   echo "Website deployed on ${VERSION}"
 else
   echo "Build successful, but not publishing!"
