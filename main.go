@@ -8,8 +8,9 @@ import (
 
 	"encoding/json"
 
-	_ "github.com/go-sql-driver/mysql"
 	"os"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
@@ -54,7 +55,7 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Hello World 2"))
+		w.Write([]byte("Hello World 22"))
 	})
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
