@@ -6,17 +6,27 @@ branches:
   - master
 go:
   - 1.9.x
+env:
+  global:
+    - GOOGLE_APPLICATION_CREDENTIALS=client-secret.json
+    - PROJECT_NAME_STG=kubernetes-example-199908
+    - CLUSTER_NAME_STG=cluster-1
+    - PROJECT_NAME_PRD=kubernetes-example-199908
+    - CLUSTER_NAME_PRD=cluster-1
+    - CLOUDSDK_COMPUTE_ZONE=us-central1-a
+    - DOCKER_IMAGE_NAME=hello-app
+    - KUBE_DEPLOYMENT_NAME=hello-app-deployment
+    - KUBE_DEPLOYMENT_CONTAINER_NAME=golang-container
 #cache:
 # directories:
 #  - "$HOME/google-cloud-sdk/"
 before_install:
 - openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv
-  -in client-secret.json.enc -out client-secret.json -d
+  -in client-secret.json.enc -out ${GOOGLE_APPLICATION_CREDENTIALS} -d
 - curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
 - mkdir -p .bin; mv ./kubectl .bin/kubectl && chmod +x .bin/kubectl
 - export PATH="$TRAVIS_BUILD_DIR/.bin:$PATH"
-- wget https://cdn.rawgit.com/Mirantis/kubeadm-dind-cluster/master/fixed/dind-cluster-v1.7.sh && chmod +x dind-cluster-v1.7.sh && ./dind-cluster-v1.7.sh up
-- export PATH="$HOME/.kubeadm-dind-cluster:$PATH"
+- kubectl get pods
 install:
 - go get -v .
 script:
