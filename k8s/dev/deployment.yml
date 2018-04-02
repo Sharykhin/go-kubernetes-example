@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: golang-container
-        image: gcr.io/kubernetes-example-199908/hello-app:v1
+        image: gcr.io/kubernetes-example-199908/hello-app:${VERSION}
         env:
         - name: HTTP_ADDRESS
           value: ":8080"
