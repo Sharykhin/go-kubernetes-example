@@ -2,7 +2,7 @@
 
 if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
 then
-  VERSION=$(git rev-parse --short HEAD)
+  VERSION=$(git rev-parse --short master)
   go build -ldflags "-X main.version=${VERSION}" -o hello-world .
   docker build -t gcr.io/kubernetes-example-199908/hello-app:${VERSION} .
   gcloud --quiet config set project kubernetes-example-199908
