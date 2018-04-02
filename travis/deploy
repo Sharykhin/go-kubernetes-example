@@ -9,6 +9,7 @@ then
   gcloud --quiet config set project kubernetes-example-199908
   gcloud --quiet config set container/cluster cluster-1
   gcloud docker -- push gcr.io/kubernetes-example-199908/hello-app:${VERSION}
+  kubectl --namespace=dev set image deployment/hello-app-deployment golang-container=gcr.io/kubernetes-example-199908/hello-app:${VERSION}
   echo "Website deployed on ${VERSION}"
 else
   echo "Build successful, but not publishing!"
