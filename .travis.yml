@@ -1,19 +1,26 @@
-stages:
-  - name: deploy
-    # require the branch name to be master
-    if: branch = master
+language: go
 
-  - name: checks
-  if: type IN (pull_request)
+branches:
+  only:
+    - master
 
-jobs:
-  include:
-    - stage: checks
-      script: echo "check"
+go:
+  - "1.9"
 
-    - stage: deploy
-      script: echo "deploy"
+install:
+- go get -v .
+- gometalinter --install
 
+script:
+- go test -v ./...
+
+after_success:
+  if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
+  then
+    echo 'Website deployed.'
+  else
+    echo "Build successful, but not publishing!"
+  fi
 #script:
 #   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash ./travis/run_on_pull_requests; fi'
 #   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./travis/run_on_non_pull_requests; fi'

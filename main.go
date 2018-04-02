@@ -29,17 +29,20 @@ func init() {
 	}
 }
 
-type User struct {
+type user struct {
 	Id   int    `json:"id"`
 	Name string `json:"name"`
 }
 
 func main() {
 	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
-		var user User
+		var u user
 		row := db.QueryRow("SELECT * FROM users LIMIT 1")
-		row.Scan(&user.Id, &user.Name)
-		res, err := json.Marshal(&user)
+		err := row.Scan(&u.Id, &u.Name)
+		if err != nil {
+			log.Fatalf("Could not scan user: %v\n", err)
+		}
+		res, err := json.Marshal(&u)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
