@@ -9,20 +9,24 @@ import (
 	"encoding/json"
 
 	_ "github.com/go-sql-driver/mysql"
+	"os"
 )
 
 var db *sql.DB
+var env = os.Getenv("APP_ENV")
 
 func init() {
-	var err error
-	db, err = sql.Open("mysql", "root:root@tcp(mysql-service-2:3306)/test?charset=utf8")
-	if err != nil {
-		log.Fatalf("Could not connetc to mysql: %v", err)
+	if env == "testing" {
+		var err error
+		var address = os.Getenv("MYSQL_ADDRESS")
+		db, err = sql.Open("mysql", address)
+		if err != nil {
+			log.Fatalf("Could not connetc to mysql: %v", err)
+		}
+		if err = db.Ping(); err != nil {
+			log.Fatalf("Could not ping database: %v", err)
+		}
 	}
-	if err = db.Ping(); err != nil {
-		log.Fatalf("Could not ping database: %v", err)
-	}
-
 }
 
 type User struct {
@@ -31,7 +35,7 @@ type User struct {
 }
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
 		var user User
 		row := db.QueryRow("SELECT * FROM users LIMIT 1")
 		row.Scan(&user.Id, &user.Name)
@@ -43,6 +47,16 @@ func main() {
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		w.Write(res)
+	})
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Hello World"))
+	})
+
+	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("pong"))
 	})
 
 	http.ListenAndServe(":8080", nil)

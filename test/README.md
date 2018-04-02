@@ -1,4 +1,0 @@
-fix credentials
-```bash
-kubectl create clusterrolebinding --user system:serviceaccount:kube-system:default kube-system-cluster-admin --clusterrole cluster-admin
-```

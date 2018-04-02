@@ -1,31 +1,20 @@
-.PHONY: test build serve clean pack deploy ship
+.PHONY: serve echo
 
-GOARCH=amd64
-CGO_ENABLED=0
-GOOS=linux
-TAG=$(shell git rev-list HEAD --max-count=1 --abbrev-commit)
-export TAG
+PROJECT_ID=kubernetes-example-199908
+VERSION=v2
 
-test:
-	go test ./...
-
-build:
-	go build -ldflags "-X main.version=v7" -o hello-world .
-
-serve: build
-	./hello-world
+serve:
+	HTTP_ADDRESS=:8080 go run main.go
 
 clean:
 	rm ./hello-world
 
+build:
+	go build -ldflags "-X main.version=${VERSION}" -o hello-world .
+
 pack:
 	GOOS=linux make build
-	docker build -t chapal/hello-world-service:v7 .
+	docker build -t gcr.io/${PROJECT_ID}/hello-app:${VERSION} .
 
 upload:
-	docker push chapal/hello-world-service:v7
-
-deploy:
-	kubectl create -f k8s/deployment.yml
-
-ship: test pack upload deploy
+	gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:${VERSION}
