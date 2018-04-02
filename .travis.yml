@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 language: go
 branches:
   only:
@@ -13,13 +13,10 @@ env:
 before_install:
 - openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv
   -in client-secret.json.enc -out client-secret.json -d
-- gcloud version
-- gcloud components update kubectl || true
-- curl https://sdk.cloud.google.com | bash
-- bash -l ./gcloud.sh version
-- bash -l ./gcloud.sh components update kubectl
-#- if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
-#  fi
+- if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
+  fi
+- curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl && \
+  chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 - kubectl config view
 install:
 - go get -v .
