@@ -13,8 +13,8 @@ env:
     - CLUSTER_NAME=cluster-1
     - CLOUDSDK_COMPUTE_ZONE=us-central1-a
     - DOCKER_IMAGE_NAME=hello-app
-    - KUBE_DEPLOYMENT_NAME=hello-app-deployment
-    - KUBE_DEPLOYMENT_CONTAINER_NAME=golang-container
+    - KUBE_DEPLOYMENT_NAME=hello-app
+    - KUBE_DEPLOYMENT_CONTAINER_NAME=hello-app-container
 #cache:
 # directories:
 #  - "$HOME/google-cloud-sdk/"
@@ -36,6 +36,5 @@ services:
 before_deploy:
   #- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
   # - source /home/travis/google-cloud-sdk/path.bash.inc
-  - kubectl --help
 after_success:
 - bash ./.deployment/travis/deploy

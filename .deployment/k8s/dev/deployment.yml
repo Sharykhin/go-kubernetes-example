@@ -21,7 +21,7 @@ spec:
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: hello-app-deployment
+  name: hello-app
   namespace: dev
   labels:
     app: hello-app
@@ -36,8 +36,8 @@ spec:
         name: hello-app
     spec:
       containers:
-      - name: golang-container
-        image: gcr.io/kubernetes-example-199908/hello-app:v1
+      - name: hello-app-container
+        image: gcr.io/kubernetes-example-199908/hello-app:c6c0584
         env:
         - name: HTTP_ADDRESS
           value: ":8080"
