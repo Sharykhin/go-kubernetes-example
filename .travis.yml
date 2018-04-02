@@ -13,8 +13,7 @@ before_install:
   -in client-secret.json.enc -out client-secret.json -d
 #- if [ ! -d ${HOME}/google-cloud-sdk ]; then curl https://sdk.cloud.google.com | bash;
 #  fi
-- curl https://sdk.cloud.google.com
-- exec -l $SHELL
+- curl https://sdk.cloud.google.com | bash
 - gcloud init
 - gcloud auth activate-service-account --key-file client-secret.json
 - gcloud components install kubectl
