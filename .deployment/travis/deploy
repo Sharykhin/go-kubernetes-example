@@ -3,6 +3,7 @@
 if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
 then
   VERSION=$(git rev-parse --short master)
+  go env
   GOOS=linux go build -ldflags "-X main.version=${VERSION}" -o hello-world .
   docker build -t gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION} .
   gcloud --quiet config set project ${PROJECT_NAME}
