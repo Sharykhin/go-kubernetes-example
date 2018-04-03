@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 language: go
 os: linux
 branches:
@@ -15,9 +15,9 @@ env:
     - DOCKER_IMAGE_NAME=hello-app
     - KUBE_DEPLOYMENT_NAME=hello-app
     - KUBE_DEPLOYMENT_CONTAINER_NAME=hello-app-container
-#cache:
-# directories:
-#  - "$HOME/google-cloud-sdk/"
+cache:
+ directories:
+  - "$HOME/google-cloud-sdk/"
 before_install:
 - openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv
   -in client-secret.json.enc -out ${GOOGLE_APPLICATION_CREDENTIALS} -d
@@ -33,10 +33,10 @@ script:
 services:
 - docker
 before_deploy:
-  #- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-  # - source /home/travis/google-cloud-sdk/path.bash.inc
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
 deploy:
   provider: script
-  script: bash ./.deployment/travis/deploy
+  script: bash ./.deployment/travis/deploy-dev
   on:
     branch: master
