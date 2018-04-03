@@ -33,14 +33,6 @@ script:
 services:
 - docker
 before_deploy:
-  - VERSION=$(git rev-parse --short master)
-  - go build -ldflags "-X main.version=${VERSION}" -o hello-world .
-  - docker build -t gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION} .
-  - gcloud --quiet config set project ${PROJECT_NAME}
-  - gcloud --quiet config set container/cluster ${CLUSTER_NAME}
-  - gcloud --quiet config set compute/zone ${CLOUDSDK_COMPUTE_ZONE}
-  - gcloud --quiet container clusters get-credentials ${CLUSTER_NAME}
-  - gcloud docker -- push gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
   #- if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
   # - source /home/travis/google-cloud-sdk/path.bash.inc
 deploy:
