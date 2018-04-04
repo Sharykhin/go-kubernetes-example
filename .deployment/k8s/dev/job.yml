@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-world-migrations
+  namespace: dev
+spec:
+  template:
+    spec:
+      containers:
+        - name: hello-app-golang
+          image: gcr.io/kubernetes-example-199908/hello-app:latest
+          command: ['goose', '-dir migrations', 'mysql', 'test:test@tcp(mysql:3306)/test', 'up']
+          env:
+          - name: HTTP_ADDRESS
+            value: ":8080"
+          - name: APP_ENV
+            value: "dev"
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-db-credentials
+                key: username
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-db-credentials
+                key: password
+          - name: DB_HOST
+            value: localhost
+      restartPolicy: Never
+  backoffLimit: 5

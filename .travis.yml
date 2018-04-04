@@ -37,3 +37,8 @@ deploy:
   script: bash ./.deployment/travis/deploy-prod
   on:
     branch: master
+
+  provider: script
+  script: bash ./.deployment/travis/deploy-dev
+  on:
+    branch: develop
