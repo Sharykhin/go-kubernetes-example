@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  golang:
+    container_name: golang
+    image: golang
+    build:
+      context: .
+      dockerfile: .docker/golang/Dockerfile.dev
+    env_file:
+      - ./.docker/golang/.env
+    volumes:
+      - .:/go/src/github.com/golang/example/outyet
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+
+  mysql:
+    container_name: mysql
+    image: mysql
+    build:
+      context: .
+      dockerfile: .docker/mysql/Dockerfile.dev
+    env_file:
+      - ./.docker/mysql/.env

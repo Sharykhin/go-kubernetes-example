@@ -14,7 +14,9 @@ env:
     - CLOUDSDK_COMPUTE_ZONE=us-central1-a
     - DOCKER_IMAGE_NAME=hello-app
     - KUBE_DEPLOYMENT_NAME=hello-app
-    - KUBE_DEPLOYMENT_CONTAINER_NAME=hello-app-container
+    - KUBE_DEPLOYMENT_CONTAINER_NAME=hello-app-golang
+services:
+- docker
 cache:
  directories:
   - "$HOME/google-cloud-sdk/"
@@ -27,13 +29,11 @@ install:
 - go get -v .
 script:
 - go test -v ./...
-services:
-- docker
 before_deploy:
   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
   - source /home/travis/google-cloud-sdk/path.bash.inc
 deploy:
   provider: script
-  script: bash ./.deployment/travis/deploy-dev
+  script: bash ./.deployment/travis/deploy-prod
   on:
     branch: master

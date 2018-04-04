@@ -14,34 +14,36 @@ import (
 )
 
 var db *sql.DB
-var env = os.Getenv("APP_ENV")
 
 func init() {
-	if env == "testing" {
-		var err error
-		var address = os.Getenv("MYSQL_ADDRESS")
-		db, err = sql.Open("mysql", address)
-		if err != nil {
-			log.Fatalf("Could not connetc to mysql: %v", err)
-		}
-		if err = db.Ping(); err != nil {
-			log.Fatalf("Could not ping database: %v", err)
-		}
+
+	var err error
+	var address = os.Getenv("MYSQL_ADDRESS")
+	db, err = sql.Open("mysql", address)
+	if err != nil {
+		log.Fatalf("Could not connetc to mysql: %v", err)
+	}
+	if err = db.Ping(); err != nil {
+		log.Fatalf("Could not ping database: %v", err)
 	}
 }
 
 type user struct {
 	Id   int    `json:"id"`
-	Name string `json:"name"`
+	Text string `json:"text"`
 }
 
 func main() {
 	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
 		var u user
-		row := db.QueryRow("SELECT * FROM users LIMIT 1")
-		err := row.Scan(&u.Id, &u.Name)
-		if err != nil {
-			log.Fatalf("Could not scan user: %v\n", err)
+		row := db.QueryRow("SELECT * FROM test LIMIT 1")
+		err := row.Scan(&u.Id, &u.Text)
+		switch {
+		case err == sql.ErrNoRows:
+		case err != nil:
+			{
+				log.Fatalf("Could not scan user: %v\n", err)
+			}
 		}
 		res, err := json.Marshal(&u)
 		if err != nil {

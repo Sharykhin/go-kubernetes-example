@@ -18,3 +18,6 @@ pack:
 
 upload:
 	gcloud docker -- push gcr.io/${PROJECT_ID}/hello-app:${VERSION}
+
+migrate:
+	docker-compose exec golang goose -dir migrations mysql "test:test@tcp(mysql:3306)/test" up
