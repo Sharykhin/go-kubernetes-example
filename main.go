@@ -10,16 +10,15 @@ import (
 
 	"os"
 
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 var db *sql.DB
 
 func init() {
-
 	var err error
-	var address = os.Getenv("MYSQL_ADDRESS")
-	db, err = sql.Open("mysql", address)
+	db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/test?parseTime=true", os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_HOST")))
 	if err != nil {
 		log.Fatalf("Could not connetc to mysql: %v", err)
 	}
