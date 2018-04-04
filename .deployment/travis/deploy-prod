@@ -4,7 +4,7 @@ if ([ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ])
 then
   VERSION=$(git rev-parse --short master)
   echo "Build a new image with tag: ${VERSION}"
-  docker build -t gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION} -f .docker/golang/Dockerfile.prod
+  docker build -t gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION} . --file .docker/golang/Dockerfile.prod
 
   gcloud --quiet config set project ${PROJECT_NAME}
   gcloud --quiet config set container/cluster ${CLUSTER_NAME}
@@ -15,9 +15,10 @@ then
   gcloud docker -- push gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
 
   echo "Download kubectl"
-  curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-  mkdir -p .bin; mv ./kubectl .bin/kubectl && chmod +x .bin/kubectl
-  export PATH="$TRAVIS_BUILD_DIR/.bin:$PATH"
+  gcloud components install kubectl
+  #curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+  #mkdir -p .bin; mv ./kubectl .bin/kubectl && chmod +x .bin/kubectl
+  #export PATH="$TRAVIS_BUILD_DIR/.bin:$PATH"
 
   echo "Update kubernetes deployment"
   kubectl --namespace=dev set image deployment/${KUBE_DEPLOYMENT_NAME} ${KUBE_DEPLOYMENT_CONTAINER_NAME}=gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
