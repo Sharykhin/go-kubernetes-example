@@ -60,11 +60,6 @@ spec:
             port: 8080
           initialDelaySeconds: 90
           periodSeconds: 10
-        lifecycle:
-          postStart:
-            exec:
-#              command: ['goose', '-dir migrations', 'mysql', '"proxyuser:root@tcp(localhost:3306)/test"', 'up']
-              command: ['ls', '-la']
       - name: cloudsql-proxy
         image: gcr.io/cloudsql-docker/gce-proxy:1.11
         command: ["/cloud_sql_proxy",
