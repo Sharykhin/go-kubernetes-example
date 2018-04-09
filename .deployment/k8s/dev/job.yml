@@ -8,10 +8,10 @@ spec:
     spec:
       containers:
         - name: hello-app-golang-job
-          image: gcr.io/kubernetes-example-199908/hello-app:b6b8f40
+          image: gcr.io/kubernetes-example-199908/hello-app:06f841a
 #          command: ['goose', '-dir', 'migrations', 'mysql', '"${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:3306)/${DB_NAME}"', 'up']
 #          command: ["sh", "-c", "tail -f /dev/null"]
-          command: ['go', 'run', 'command/migrate']
+          command: ['go', 'run', 'command/migrate.go']
           env:
           - name: HTTP_ADDRESS
             value: ":8080"
