@@ -18,9 +18,9 @@ func main() {
 	flag.Parse()
 	switch *command {
 	case "migrates":
-		fmt.Println("run migrates")
+		migrates()
 	case "fixtures":
-		fmt.Println("run fixtures")
+		fixtures()
 	default:
 		fmt.Println("Please specify command: migrates|fixtures")
 	}
@@ -45,6 +45,8 @@ func fixtures() {
 	if err != nil {
 		log.Fatalf("Could not load fixtures: %v", err)
 	}
+
+	fmt.Println("Fixtures have been loaded.")
 }
 
 func migrates() {
