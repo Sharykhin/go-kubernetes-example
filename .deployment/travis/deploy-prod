@@ -24,7 +24,9 @@ then
   sed 's/${VERSION}/'"${VERSION}"'/g' .deployment/k8s/dev/job.tpl.yml > .deployment/k8s/dev/job.yml
   kubectl --namespace=dev delete -f .deployment/k8s/dev/job.yml
   kubectl --namespace=dev apply -f .deployment/k8s/dev/job.yml
-  kubectl --namespace=dev set image deployment/${KUBE_DEPLOYMENT_NAME} ${KUBE_DEPLOYMENT_CONTAINER_NAME}=gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
+  sed 's/${VERSION}/'"${VERSION}"'/g' .deployment/k8s/dev/deployment.tpl.yml > .deployment/k8s/dev/deployment.yml
+  kubectl --namespace=dev apply -f .deployment/k8s/dev/deployment.yml
+  #kubectl --namespace=dev set image deployment/${KUBE_DEPLOYMENT_NAME} ${KUBE_DEPLOYMENT_CONTAINER_NAME}=gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
   echo "Application was deployed on ${VERSION}"
 else
   echo "Build successful, but not publishing!"

@@ -3,3 +3,4 @@ hello-world
 client-secret.json
 .env
 .deployment/k8s/dev/job.yml
+.deployment/k8s/dev/deployment.yml

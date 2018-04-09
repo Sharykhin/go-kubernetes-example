@@ -12,7 +12,6 @@ import (
 )
 
 func main() {
-	fmt.Println(os.Getenv("DB_USER"))
 
 	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:3306)/%s?parseTime=true", os.Getenv("DB_USER"), os.Getenv("DB_PASS"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME")))
 	if err != nil {
@@ -32,4 +31,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not run migrate command Up: %v", err)
 	}
+
+	v, _, err := m.Version()
+	if err != nil {
+		log.Fatalf("Get Version: %v", err)
+	}
+
+	fmt.Printf("Migrate applied. Current version is %v", v)
 }
