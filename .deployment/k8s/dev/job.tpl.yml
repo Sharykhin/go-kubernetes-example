@@ -9,7 +9,7 @@ spec:
       containers:
       - name: hello-app-golang-job
         image: gcr.io/kubernetes-example-199908/hello-app:${VERSION}
-        command: ['go', 'run', 'command/migrate.go']
+        command: ['go', 'run', 'command/main.go', '-command', 'migrates']
         env:
         - name: HTTP_ADDRESS
           value: ":8080"
