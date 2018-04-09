@@ -2,3 +2,4 @@ hello-world
 .idea
 client-secret.json
 .env
+.deployment/k8s/dev/job.yml

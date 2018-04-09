@@ -1,0 +1,1 @@
+ALTER TABLE `test` ADD COLUMN `completed` INT(1);
