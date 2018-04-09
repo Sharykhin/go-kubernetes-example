@@ -8,6 +8,7 @@ ADD . /go/src/github.com/golang/example/outyet
 WORKDIR /go/src/github.com/golang/example/outyet
 
 RUN go get . && \
+    go get github.com/mattes/migrate && \
     go install github.com/golang/example/outyet && \
     go get -u github.com/pressly/goose/cmd/goose
 
