@@ -23,7 +23,7 @@ func main() {
 		log.Fatalf("Could create migrate driver: %v", err)
 	}
 	m, err := migrate.NewWithDatabaseInstance(
-		"file:///go/src/github.com/golang/example/outyet",
+		"file:///go/src/github.com/golang/example/outyet/migrations",
 		"mysql", driver)
 	if err != nil {
 		log.Fatalf("Could not create database instance of migrate: %v", err)
