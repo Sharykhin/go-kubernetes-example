@@ -57,12 +57,12 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Hello World!!!"))
+		w.Write([]byte("Hello World."))
 	})
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("pong 2"))
+		w.Write([]byte("pong 3"))
 	})
 
 	http.ListenAndServe(":8080", nil)
