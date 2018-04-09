@@ -4,3 +4,6 @@ client-secret.json
 .env
 .deployment/k8s/dev/job.yml
 .deployment/k8s/dev/deployment.yml
+client-cert.pem
+client-key.pem
+server-ca.pem
