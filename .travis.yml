@@ -28,6 +28,7 @@ before_install:
 install:
 - go get -v .
 - go get github.com/mattes/migrate
+- go get gopkg.in/testfixtures.v2
 script:
 - go test -v ./...
 before_deploy:

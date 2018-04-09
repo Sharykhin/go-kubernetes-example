@@ -9,6 +9,7 @@ WORKDIR /go/src/github.com/golang/example/outyet
 RUN go get . && \
     go get github.com/canthefason/go-watcher && \
     go get github.com/mattes/migrate && \
+    go get gopkg.in/testfixtures.v2 && \
     go install github.com/canthefason/go-watcher/cmd/watcher && \
     go get -u github.com/pressly/goose/cmd/goose
 
