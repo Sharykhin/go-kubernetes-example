@@ -27,6 +27,7 @@ before_install:
 - gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project kubernetes-example-199908
 install:
 - go get -v .
+- go get github.com/mattes/migrate
 script:
 - go test -v ./...
 before_deploy:
