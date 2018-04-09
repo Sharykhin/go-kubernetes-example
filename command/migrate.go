@@ -17,6 +17,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("Could not to open connection: %v", err)
 	}
+
+	if err := db.Ping(); err != nil {
+		log.Fatalf("Could not pint database: %v", err)
+	}
+
 	driver, err := mysql.WithInstance(db, &mysql.Config{})
 	if err != nil {
 		log.Fatalf("Could create migrate driver: %v", err)
@@ -29,7 +34,11 @@ func main() {
 	}
 	err = m.Up()
 	if err != nil {
-		log.Fatalf("Could not run migrate command Up: %v", err)
+		if err == migrate.ErrNoChange {
+			fmt.Println("No changes in migrations")
+		} else {
+			log.Fatalf("Could not run migrate command Up: %v", err)
+		}
 	}
 
 	v, _, err := m.Version()
