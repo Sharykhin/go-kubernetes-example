@@ -7,29 +7,42 @@ spec:
   template:
     spec:
       containers:
-        - name: hello-app-golang-job
-          image: gcr.io/kubernetes-example-199908/hello-app:71a2182
+      - name: hello-app-golang-job
+        image: gcr.io/kubernetes-example-199908/hello-app:426d93b
 #          command: ['goose', '-dir', 'migrations', 'mysql', '"${DB_USER}:${DB_PASS}@tcp(${DB_HOST}:3306)/${DB_NAME}"', 'up']
 #          command: ["sh", "-c", "tail -f /dev/null"]
-          command: ['go', 'run', 'command/migrate.go']
-          env:
-          - name: HTTP_ADDRESS
-            value: ":8080"
-          - name: APP_ENV
-            value: "dev"
-          - name: DB_HOST
-            value: "localhost"
-          - name: DB_NAME
-            value: "test"
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: cloudsql-db-credentials
-                key: username
-          - name: DB_PASS
-            valueFrom:
-              secretKeyRef:
-                name: cloudsql-db-credentials
-                key: password
+        command: ['go', 'run', 'command/migrate.go']
+        env:
+        - name: HTTP_ADDRESS
+          value: ":8080"
+        - name: APP_ENV
+          value: "dev"
+        - name: DB_HOST
+          value: "localhost"
+        - name: DB_NAME
+          value: "test"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: cloudsql-db-credentials
+              key: username
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: cloudsql-db-credentials
+              key: password
+      - name: cloudsql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.11
+        command: ["/cloud_sql_proxy",
+                  "-instances=kubernetes-example-199908:us-central1:sql-example=tcp:3306",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+          - name: cloudsql-instance-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+      volumes:
+      - name: cloudsql-instance-credentials
+        secret:
+          secretName: cloudsql-instance-credentials
       restartPolicy: Never
   backoffLimit: 1
