@@ -20,6 +20,7 @@ metadata:
     app: hello-app
 spec:
   replicas: 1
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       name: hello-app
