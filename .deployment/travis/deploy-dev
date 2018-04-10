@@ -40,6 +40,7 @@ then
   ./cloud_sql_proxy -instances=kubernetes-example-199908:us-central1:sql-example=tcp:3306 -dir=cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
 
   echo "Run migrations"
+  sleep 5
   goose -dir=goose_test mysql "proxyuser:root@tcp(localhost:3306)/test" up
 
   echo "Application was deployed on ${VERSION}"
