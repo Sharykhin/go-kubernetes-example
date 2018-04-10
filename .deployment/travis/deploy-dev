@@ -37,7 +37,7 @@ then
 
   echo "Start cloud_sql_proxy";
   openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv -in client-secret.json.enc -out ${GOOGLE_APPLICATION_CREDENTIALS} -d
-  ./cloud_sql_proxy -instances=kubernetes-example-199908:us-central1:sql-example=tcp:3307 -dir=cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
+  ./cloud_sql_proxy -instances=kubernetes-example-199908:us-central1:sql-example -dir=cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
   echo "Run migrations"
   goose -dir=goose_test mysql "proxyuser:root@tcp(localhost:3307)/test" up
 
