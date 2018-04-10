@@ -7,3 +7,4 @@ client-secret.json
 client-cert.pem
 client-key.pem
 server-ca.pem
+cloud_sql_proxy

@@ -36,9 +36,9 @@ then
   chmod 777 cloudsql;
 
   echo "Start cloud_sql_proxy";
-  ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=cloudsql &
+  ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
   echo "Run migrations"
-  goose -dir=migrations mysql "proxyuser:root@tcp(localhost:3306)/test" up
+  goose -dir=goose_test mysql "proxyuser:root@tcp(localhost:3306)/test" up
 
   echo "Application was deployed on ${VERSION}"
 else
