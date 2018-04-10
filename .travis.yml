@@ -15,6 +15,7 @@ env:
     - DOCKER_IMAGE_NAME=hello-app
     - KUBE_DEPLOYMENT_NAME=hello-app
     - KUBE_DEPLOYMENT_CONTAINER_NAME=hello-app-golang
+    - CLOUD_SQL_ICN=kubernetes-example-199908:us-central1:sql-example
 services:
 - docker
 cache:
@@ -29,6 +30,7 @@ install:
 - go get -v .
 - go get github.com/mattes/migrate
 - go get gopkg.in/testfixtures.v2
+- go get github.com/pressly/goose/cmd/goose
 script:
 - go test -v ./...
 before_deploy:
@@ -36,7 +38,7 @@ before_deploy:
   - source /home/travis/google-cloud-sdk/path.bash.inc
 deploy:
   provider: script
-  script: bash ./.deployment/travis/deploy-prod
+  script: bash ./.deployment/travis/deploy-dev
   on:
     branch: master
 

@@ -27,6 +27,19 @@ then
   sed 's/${VERSION}/'"${VERSION}"'/g' .deployment/k8s/dev/deployment.tpl.yml > .deployment/k8s/dev/deployment.yml
   kubectl --namespace=dev apply -f .deployment/k8s/dev/deployment.yml
   #kubectl --namespace=dev set image deployment/${KUBE_DEPLOYMENT_NAME} ${KUBE_DEPLOYMENT_CONTAINER_NAME}=gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
+
+  echo "Install and setup Cloud SQL proxy";
+  wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64;
+  mv cloud_sql_proxy.linux.amd64 cloud_sql_proxy;
+  chmod +x cloud_sql_proxy;
+  mkdir cloudsql;
+  chmod 777 cloudsql;
+
+  echo "Start cloud_sql_proxy";
+  ./cloud_sql_proxy -instances=$CLOUD_SQL_ICN -dir=cloudsql &
+  echo "Run migrations"
+  goose -dir=migrations mysql "proxyuser:root@tcp(localhost:3306)" up
+
   echo "Application was deployed on ${VERSION}"
 else
   echo "Build successful, but not publishing!"
