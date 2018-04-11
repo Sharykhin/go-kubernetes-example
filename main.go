@@ -52,12 +52,12 @@ func main() {
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Hello World.")) // nolint: errcheck
+		w.Write([]byte("Hello World!!!")) // nolint: errcheck
 	})
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("pong 3")) // nolint: errcheck
+		w.Write([]byte("pong")) // nolint: errcheck
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
