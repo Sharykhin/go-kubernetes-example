@@ -6,6 +6,7 @@ branches:
 go:
   - 1.9.x
 env:
+  DOCKER_COMPOSE_VERSION: 1.20.1
   global:
     - GOOGLE_APPLICATION_CREDENTIALS=client-secret.json
     - PROJECT_NAME=kubernetes-example-199908
@@ -21,7 +22,10 @@ cache:
  directories:
   - "$HOME/google-cloud-sdk/"
 before_install:
-- echo docker-compose --help
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
 install:
 - docker build -t golang . --file=.docker/migration/Dockerfile
 - docker build -t mysql . --file=.docker/mysql/Dockerfile.dev
