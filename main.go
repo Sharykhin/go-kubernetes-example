@@ -1,18 +1,13 @@
 package main
 
 import (
-	"net/http"
-
 	"database/sql"
-	"log"
-
 	"encoding/json"
-
-	"os"
-
 	"fmt"
-
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql" // Need by default driver
+	"log"
+	"net/http"
+	"os"
 )
 
 var db *sql.DB
@@ -29,7 +24,7 @@ func init() {
 }
 
 type user struct {
-	Id   int    `json:"id"`
+	ID   int    `json:"id"`
 	Text string `json:"text"`
 }
 
@@ -37,7 +32,7 @@ func main() {
 	http.HandleFunc("/user", func(w http.ResponseWriter, r *http.Request) {
 		var u user
 		row := db.QueryRow("SELECT * FROM test LIMIT 1")
-		err := row.Scan(&u.Id, &u.Text)
+		err := row.Scan(&u.ID, &u.Text)
 		switch {
 		case err == sql.ErrNoRows:
 		case err != nil:
@@ -52,18 +47,18 @@ func main() {
 		}
 		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write(res)
+		w.Write(res) // nolint: errcheck
 	})
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Hello World."))
+		w.Write([]byte("Hello World.")) // nolint: errcheck
 	})
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("pong 3"))
+		w.Write([]byte("pong 3")) // nolint: errcheck
 	})
 
-	http.ListenAndServe(":8080", nil)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }

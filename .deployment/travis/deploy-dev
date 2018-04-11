@@ -28,20 +28,20 @@ then
   kubectl --namespace=dev apply -f .deployment/k8s/dev/deployment.yml
   #kubectl --namespace=dev set image deployment/${KUBE_DEPLOYMENT_NAME} ${KUBE_DEPLOYMENT_CONTAINER_NAME}=gcr.io/${PROJECT_NAME}/${DOCKER_IMAGE_NAME}:${VERSION}
 
-  echo "Install and setup Cloud SQL proxy";
-  wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64;
-  mv cloud_sql_proxy.linux.amd64 cloud_sql_proxy;
-  chmod +x cloud_sql_proxy;
-  mkdir cloudsql;
-  chmod 777 cloudsql;
-
+  # --> it a working way but I guess it's better to use jobs or kubernetes services
+  #echo "Install and setup Cloud SQL proxy";
+  #wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64;
+  #mv cloud_sql_proxy.linux.amd64 cloud_sql_proxy;
+  #chmod +x cloud_sql_proxy;
+  #mkdir cloudsql;
+  #chmod 777 cloudsql;
   echo "Start cloud_sql_proxy";
-  openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv -in client-secret.json.enc -out ${GOOGLE_APPLICATION_CREDENTIALS} -d
-  ./cloud_sql_proxy -instances=kubernetes-example-199908:us-central1:sql-example=tcp:3306 -dir=cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
+  #openssl aes-256-cbc -K $encrypted_bd75f0e62987_key -iv $encrypted_bd75f0e62987_iv -in client-secret.json.enc -out ${GOOGLE_APPLICATION_CREDENTIALS} -d
+  #./cloud_sql_proxy -instances=kubernetes-example-199908:us-central1:sql-example=tcp:3306 -dir=cloudsql -credential_file=$GOOGLE_APPLICATION_CREDENTIALS &
+  #echo "Run migrations"
+  #sleep 5
+  #goose -dir=goose_test mysql "proxyuser:root@tcp(localhost:3306)/test" up
 
-  echo "Run migrations"
-  sleep 5
-  goose -dir=goose_test mysql "proxyuser:root@tcp(localhost:3306)/test" up
 
   echo "Application was deployed on ${VERSION}"
 else
