@@ -9,3 +9,6 @@ docker exec golang ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:
 docker exec golang ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations drop
 docker exec golang ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations up
 docker exec golang ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations version
+docker stop golang
+docker stop mysql
+docker network rm test
