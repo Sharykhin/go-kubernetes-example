@@ -3,9 +3,9 @@ docker network create test
 docker run --rm --name golang --net test -d -t golang
 docker run --rm --name mysql --net test -e MYSQL_ROOT_PASSWORD=root -e MYSQL_USER=test -e MYSQL_PASSWORD=test -e MYSQL_DATABASE=test  -d -t mysql
 docker exec golang gometalinter.v2 main.go
-docker exec mysql ./migrate.linux-amd64 -database mysql://test:test@tcp(mysql:3306)/test -path migrations up
-docker exec mysql ./migrate.linux-amd64 -database mysql://test:test@tcp(mysql:3306)/test -path migrations down
-docker exec mysql ./migrate.linux-amd64 -database mysql://test:test@tcp(mysql:3306)/test -path migrations up
-docker exec mysql ./migrate.linux-amd64 -database mysql://test:test@tcp(mysql:3306)/test -path migrations drop
-docker exec mysql ./migrate.linux-amd64 -database mysql://test:test@tcp(mysql:3306)/test -path migrations up
-docker exec mysql ./migrate.linux-amd64 -database mysql://test:test@tcp(mysql:3306)/test -path migrations version
+docker exec mysql ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations up
+docker exec mysql ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations down
+docker exec mysql ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations up
+docker exec mysql ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations drop
+docker exec mysql ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations up
+docker exec mysql ./migrate.linux-amd64 -database "mysql://test:test@tcp(mysql:3306)/test" -path migrations version
